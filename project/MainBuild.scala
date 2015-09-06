@@ -20,7 +20,7 @@ object MainBuild extends Build {
     .settings(
       description := "Implementation of a server to improve different algorithms over spatial networks and concurrent / parallel processing."
     )
-    .aggregate(drivingDistance, inmemory)
+    .aggregate(drivingDistance, inmemory, core)
 
   lazy val core = project.in(file("core"))
     .settings(commonSettings: _*)
