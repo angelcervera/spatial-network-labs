@@ -1,7 +1,5 @@
 package com.acervera.spatialnetworklabs.core
 
-import scala.collection.immutable.HashMap
-
 /**
  * Spatial node in the network.
  *
@@ -10,7 +8,7 @@ import scala.collection.immutable.HashMap
  * @param latitude Latitude in grades
  * @param attributes Attributes related with the vertex
  */
-class Vertex(id: Long, longitude: Long, latitude: Long, attributes: HashMap[Serializable, Serializable])
+class Vertex(val id: Long, val longitude: Long, val latitude: Long, val label: String, val attributes: Map[Any, Any])
 
 /**
  * Represent the union between two different nodes.
@@ -20,4 +18,4 @@ class Vertex(id: Long, longitude: Long, latitude: Long, attributes: HashMap[Seri
  * @param target Node target
  * @param attributes Attributes related with the edge
  */
-class Edge(id: Long, source: Vertex, target: Vertex, attributes: HashMap[Serializable, Serializable])
+class Edge(val id: Long, val source: Vertex, val target: Vertex, val label: String, val attributes: Map[Any, Any])
