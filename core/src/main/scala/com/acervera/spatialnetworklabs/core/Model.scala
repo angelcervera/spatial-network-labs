@@ -1,45 +1,23 @@
 package com.acervera.spatialnetworklabs.core
 
+import scala.collection.immutable.HashMap
+
 /**
  * Spatial node in the network.
  *
- * @param id OSM Id
+ * @param id Unique id that represent a node.
  * @param longitude Longitude in grades
  * @param latitude Latitude in grades
+ * @param attributes Attributes related with the vertex
  */
-class Node(id: Long, longitude: Long, latitude: Long)
+class Vertex(id: Long, longitude: Long, latitude: Long, attributes: HashMap[Serializable, Serializable])
 
 /**
  * Represent the union between two different nodes.
  *
- * @param id OSM Id
+ * @param id Unique id that represent a vertex
  * @param source Node source
  * @param target Node target
- * @param linestring Spatial representation.
- * @param wayType Type of way
- * @param length meters
- * @param costCarForward Cost for forward direction in minutes.
- * @param costCarBackward Cost for backward direction in minutes.
- * @param costPedestrian Cost for pedestrian in minutes and any direction.
+ * @param attributes Attributes related with the edge
  */
-class Vertex(
-              id: Long, // OSM id
-              source: Node,
-              target: Node,
-              linestring: String,
-              wayType: String,
-              length: Double,
-              costCarForward: Double,
-              costCarBackward: Double,
-              costPedestrian: Double
-              )
-
-class HighwayType(country: String, typeWay: String, carMaxSpeed: Double)
-
-class Way(
-           id: Long = -1,
-           oneWay: Integer = 0,
-           country: String,
-           carMaxSpeedForward: Double = -1,
-           carMaxSpeedBackward: Double = -1
-           )
+class Edge(id: Long, source: Vertex, target: Vertex, attributes: HashMap[Serializable, Serializable])
