@@ -3,12 +3,22 @@ import sbt._
 
 object MainBuild extends Build {
 
+  lazy val akkaVersion = "2.4.0-RC2"
+  lazy val akkaLibraries = List(
+    "com.typesafe.akka" %% "akka-cluster" % akkaVersion,
+    "com.typesafe.akka" %% "akka-testkit" % akkaVersion % "test",
+    "com.typesafe.akka" %% "akka-multi-node-testkit" % akkaVersion % "test",
+    "org.scalacheck" %% "scalacheck" % "1.12.4" % "test",
+    "org.scalatest" %% "scalatest" % "2.2.5" % "test"
+  )
+
   lazy val commonSettings = Seq(
     organization := "com.acervera.labs.spatial",
     organizationHomepage := Some(url("http://www.acervera.com")),
     version := "1.0-SNAPSHOT",
     scalaVersion := "2.11.7",
-    publishMavenStyle := true
+    publishMavenStyle := true,
+    libraryDependencies ++= akkaLibraries
   )
 
   lazy val algorithmsCommonSettings = commonSettings ++ Seq(
