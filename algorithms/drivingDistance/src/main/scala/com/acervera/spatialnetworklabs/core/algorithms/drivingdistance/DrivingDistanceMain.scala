@@ -5,7 +5,7 @@ import com.acervera.spatialnetworklabs.core.{Vertex, GraphStorage}
 /**
  * Implementation of the Driving Distance algorithm, used to create spanning trees of coverage.
  */
-class DrivingDistance(storage: GraphStorage) {
+class DrivingDistanceMain(storage: GraphStorage) {
 
   /**
    * Starting from the source vertex, calculate all the spanning tree up the nodes with a cost to arrive near or equal

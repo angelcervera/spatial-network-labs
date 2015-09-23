@@ -9,13 +9,15 @@ import scala.concurrent.duration.Duration
 
 class DrivingDistanceMediatorSpec extends WordSpec with Matchers with BeforeAndAfterAll {
 
-  implicit val system = ActorSystem("driving-distance-mediator-spec-system")
+  implicit val system = ActorSystem("driving-distance-mediator-spec")
 
   "A DrivingDistanceMediator" should {
-    "be suited for getting started" in {
-      EventFilter.debug(pattern = s"started.*${classOf[DrivingDistanceMediator].getName}", occurrences = 1).intercept {
-        system.actorOf(DrivingDistanceMediator.props)
-      }
+    "send messages to next nodes" in {
+      fail("Not implemented.")
+    }
+
+    "send messages to next nodes, excluding previously routes" in {
+      fail("Not implemented.")
     }
   }
 
