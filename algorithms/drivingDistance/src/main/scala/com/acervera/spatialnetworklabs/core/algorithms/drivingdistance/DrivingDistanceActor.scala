@@ -3,23 +3,27 @@ package com.acervera.spatialnetworklabs.core.algorithms.drivingdistance
 import akka.actor.{Props, Actor}
 import akka.event.Logging
 import com.acervera.spatialnetworklabs.core.algorithms.drivingdistance.DrivingDistanceActor.GoForwardEvent
-import com.acervera.spatialnetworklabs.core.{Edge, Vertex}
+import com.acervera.spatialnetworklabs.core.{Coordinate, GraphStorage, Edge, Vertex}
+import com.acervera.spatialnetworklabs.storage.inmemory.InMemoryGraphStorage
 
 object DrivingDistanceActor {
-  def props: Props = Props(new DrivingDistanceActor)
+
+  val inMemoryStorage = InMemoryGraphStorage()
+
+  def props: Props = Props(new DrivingDistanceActor(inMemoryStorage))
 
   // List of messages.
 
   /**
    * Message sended to the next forward.
    *
-   * @param source Origin
-   * @param path Path to forward.
-   * @param weight Current weight
+   * @param sourceVertexId Origin id
+   * @param sourceEdgeId Path id to forward.
+   * @param currentWeight Current weight
    * @param limits Ordered list of weight limits.
    * @param weightAttribute Name of the parameter that contain the weight of the path
    */
-  case class GoForwardEvent(source: Vertex, path: Edge, weight: Double, limits: List[Double], weightAttribute: String)
+  case class GoForwardEvent(sourceVertexId: Long, sourceEdgeId: Long, currentWeight: Double, limits: List[Double], weightAttribute: String)
 
   /**
    * Limit point.
@@ -33,25 +37,32 @@ object DrivingDistanceActor {
 
 }
 
-class DrivingDistanceActor extends Actor {
+class DrivingDistanceActor(graphStorage: GraphStorage) extends Actor {
 
   val log = Logging(context.system, this)
+
+  var limitCoordenates: Set[Coordinate] = Set()
 
   override def receive = {
 
     // Retrieve next vertexes and go forward.
-    case GoForwardEvent(source, path, weight, limits, weightAttribute) => {
+    case GoForwardEvent(sourceVertexId, sourceEdgeId, currentWeight, limits, weightAttribute) => {
 
-      // TODO: Retrieve next vertexes from storage system.
-      val vertexes = List(
-        new Vertex(0, 0, 0, "label", Map("prop1" -> "val1", "prop2" -> 3d)),
-        new Vertex(1, 1, 1, "label", Map("prop3" -> "val1", "prop4" -> 3d))
-      )
+      val outPaths = graphStorage vertexOuts sourceVertexId
 
-      vertexes foreach (vertex => {
-        val att = vertex.attributes(weightAttribute)
-        // TODO: If cross the limit, send an CrossedLimitEvent to the sender, and stop if it is the last limit.
-        // TODO: If does not cross the limit, continue with the next vertex.
+      outPaths foreach (path => {
+        if (path.id != sourceEdgeId) {
+          val w = path.attributes(weightAttribute).asInstanceOf[Double] // FIXME: Must be a Double. Convert if it is not ??
+
+
+          val newWeight = currentWeight + w;
+          if (newWeight < limits(0)) {
+            sender() ! GoForwardEvent(path.outId, path.id, newWeight, limits, weightAttribute)
+          } else {
+            limitCoordenates += graphStorage.vertex(sourceVertexId).coordinate // FIXME: Calculate the real coordenate in the path.
+          }
+        }
+
       })
 
 

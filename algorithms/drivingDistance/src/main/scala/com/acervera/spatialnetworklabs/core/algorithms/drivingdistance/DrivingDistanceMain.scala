@@ -1,6 +1,6 @@
 package com.acervera.spatialnetworklabs.core.algorithms.drivingdistance
 
-import com.acervera.spatialnetworklabs.core.{Vertex, GraphStorage}
+import com.acervera.spatialnetworklabs.core.{Coordinate, Vertex, GraphStorage}
 
 /**
  * Implementation of the Driving Distance algorithm, used to create spanning trees of coverage.
@@ -24,8 +24,8 @@ class DrivingDistanceMain(storage: GraphStorage) {
 
     // TODO: Implement. At the moment, Mocked
     Map(1L -> Set(
-      new Vertex(0, 0, 0, "label", Map("prop1" -> "val1", "prop2" -> 3d)),
-      new Vertex(1, 1, 1, "label", Map())
+      new Vertex(0, Coordinate(0, 0), "label", Map("prop1" -> "val1", "prop2" -> 3d)),
+      new Vertex(1, Coordinate(1, 1), "label", Map())
     ))
   }
 

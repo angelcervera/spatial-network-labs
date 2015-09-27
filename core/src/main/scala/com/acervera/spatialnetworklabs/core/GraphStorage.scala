@@ -11,6 +11,14 @@ trait GraphStorage {
    * @param id Unique Id vertex
    * @return An Vertex Object.
    */
-  def retrieveVertex(id: Long): Vertex
+  def vertex(id: Long): Vertex
+
+  /**
+   * Return outs from the Vertex
+   *
+   * @param id Id of the Vertex.
+   * @return List of Edges.
+   */
+  def vertexOuts(id: Long): List[Edge]
 
 }

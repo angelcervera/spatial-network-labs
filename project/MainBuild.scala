@@ -3,7 +3,7 @@ import sbt._
 
 object MainBuild extends Build {
 
-  lazy val akkaVersion = "2.4.0-RC2"
+  lazy val akkaVersion = "2.4.0-RC3"
   lazy val akkaLibraries = List(
     "com.typesafe.akka" %% "akka-cluster" % akkaVersion,
     "com.typesafe.akka" %% "akka-testkit" % akkaVersion % "test",
