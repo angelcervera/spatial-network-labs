@@ -20,6 +20,7 @@ case class Vertex(val id: Long, val coordinate: Coordinate, val label: String, v
 case class Edge(val id: Long, val inId: Long, val outId: Long, val label: String, val attributes: Map[Any, Any])
 
 /**
+ * 3D spatial coordinate definition.
  *
  * @param longitude Longitude in grades
  * @param latitude Latitude in grades
