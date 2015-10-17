@@ -24,7 +24,7 @@ object PbfRawIterator {
    * @param pbfInputStream
    * @param visitFn
    */
-  def apply(pbfInputStream: InputStream, visitFn: (Array[Byte]) => Unit): Unit = {
+  def apply(pbfInputStream: InputStream, visitFn: (OsmPbfBlock) => Unit): Unit = {
     PbfRawIterator(pbfInputStream) foreach (blob => visitFn(blob))
   }
 
@@ -36,13 +36,13 @@ object PbfRawIterator {
  *
  * @author angelcervera
  */
-class PbfRawIterator(pbfInputStream: InputStream) extends Iterator[Array[Byte]] {
+class PbfRawIterator(pbfInputStream: InputStream) extends Iterator[OsmPbfBlock] {
 
   // Read the input stream using DataInputStream to access easily to Int and raw fields.
   val pbfStream = new DataInputStream(pbfInputStream)
 
   // Temporal storage for the next block.
-  var nextRawBlock: Array[Byte] = null
+  var nextRawBlock: OsmPbfBlock = null
 
   // Flag the EOF.
   var eof: Boolean = false
@@ -54,18 +54,7 @@ class PbfRawIterator(pbfInputStream: InputStream) extends Iterator[Array[Byte]] 
   private def readNextBlock() = {
 
     try {
-
-      // Reading header.
-      val nextRawBlobHeader = new Array[Byte](pbfStream.readInt)
-      pbfStream.readFully(nextRawBlobHeader)
-
-      // Reading message
-      val nextRawBlobMessage = new Array[Byte](Fileformat.BlobHeader.parseFrom(nextRawBlobHeader).getDatasize)
-      pbfStream.readFully(nextRawBlobMessage)
-
-      // Regenerate the block
-      nextRawBlock = Array(nextRawBlobHeader.length.toByte) ++ nextRawBlobHeader ++ nextRawBlobMessage
-
+      nextRawBlock = OsmPbfBlock(pbfStream)
     } catch {
       case e: EOFException => {
         eof = true
@@ -78,7 +67,7 @@ class PbfRawIterator(pbfInputStream: InputStream) extends Iterator[Array[Byte]] 
     !eof
   }
 
-  override def next(): Array[Byte] = {
+  override def next(): OsmPbfBlock = {
     val returnBlob = nextRawBlock
     readNextBlock
 

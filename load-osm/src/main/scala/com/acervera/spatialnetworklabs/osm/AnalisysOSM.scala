@@ -26,9 +26,9 @@ object AnalysisOSM extends App {
    */
   var bytesCounter: Long = 0L;
 
-  def countBlocks(rawBlock: Array[Byte]): Unit = {
+  def countBlocks(rawBlock: OsmPbfBlock): Unit = {
     blocksCounter += 1
-    bytesCounter += rawBlock.length
+    bytesCounter += rawBlock.raw.length
   }
 
   def startAnalysis(filePath: String): Unit = {
