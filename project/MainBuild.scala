@@ -7,9 +7,7 @@ object MainBuild extends Build {
   lazy val akkaLibraries = List(
     "com.typesafe.akka" %% "akka-cluster" % akkaVersion,
     "com.typesafe.akka" %% "akka-testkit" % akkaVersion % "test",
-    "com.typesafe.akka" %% "akka-multi-node-testkit" % akkaVersion % "test",
-    "org.scalacheck" %% "scalacheck" % "1.12.4" % "test",
-    "org.scalatest" %% "scalatest" % "2.2.5" % "test"
+    "com.typesafe.akka" %% "akka-multi-node-testkit" % akkaVersion % "test"
   )
 
   lazy val sparkVersion = "1.5.1"
@@ -20,7 +18,11 @@ object MainBuild extends Build {
     organizationHomepage := Some(url("http://www.acervera.com")),
     version := "1.0-SNAPSHOT",
     scalaVersion := "2.11.7",
-    publishMavenStyle := true
+    publishMavenStyle := true,
+    libraryDependencies ++= List(
+      "org.scalatest" %% "scalatest" % "2.2.5" % "test",
+      "org.scalacheck" %% "scalacheck" % "1.12.4" % "test"
+    )
   )
 
   lazy val algorithmsCommonSettings = commonSettings ++ Seq(
@@ -65,7 +67,8 @@ object MainBuild extends Build {
       libraryDependencies ++= List(
         // "org.apache.spark" %% "spark-core" % sparkVersion % "provided",
         "org.openstreetmap.osmosis" % "osmosis-osm-binary" % osmosisVersion,
-        "org.clapper" %% "argot" % "1.0.3"
+        "org.clapper" %% "argot" % "1.0.3",
+        "commons-codec" % "commons-codec" % "1.10" % "test"
       )
     )
 
