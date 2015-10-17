@@ -8,9 +8,9 @@ import com.acervera.spatialnetworklabs.storage.inmemory.InMemoryGraphStorage
 
 object DrivingDistanceActor {
 
-  val inMemoryStorage = InMemoryGraphStorage()
+  // val inMemoryStorage = InMemoryGraphStorage()
 
-  def props: Props = Props(new DrivingDistanceActor(inMemoryStorage))
+  // def props: Props = Props(new DrivingDistanceActor(inMemoryStorage))
 
   // List of messages.
 
