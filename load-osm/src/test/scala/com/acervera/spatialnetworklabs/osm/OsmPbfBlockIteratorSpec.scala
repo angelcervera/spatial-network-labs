@@ -6,7 +6,7 @@ import org.apache.commons.codec.digest.DigestUtils
 import org.scalatest.{WordSpec, FunSpec}
 
 
-class OsmPbfRawIteratorSpec extends WordSpec {
+class OsmPbfBlockIteratorSpec extends WordSpec {
 
   
   "The PbfRawIteratorSpec should" should {
@@ -29,42 +29,6 @@ class OsmPbfRawIteratorSpec extends WordSpec {
         if (pbfIS != null) pbfIS.close()
       }
     }
-    
-    
-    /* Temporal code used to generate test data set.
-    "Extract rigth raw data" in {
-      val testFile = "/home/angel/projects/spatial-network-labs/tmp/ireland-and-northern-ireland-latest.osm.pbf"
-      var counter = 0
-      var outFile : DataOutputStream = null
-      var pbfIS: InputStream = null
-      try {
-        
-        outFile = new DataOutputStream(
-          new FileOutputStream("/home/angel/projects/spatial-network-labs/tmp/blocks/copy.osm.pbf")
-        )
-              
-        pbfIS = new FileInputStream(testFile)
-        PbfRawIterator(pbfIS, rawBlock => {
-          if( counter < 3 ) {
-            outFile.write(rawBlock.raw)
-          }
-          counter += 1
-        })
-        
-        println(">>>>>>>>>>>>>>>>>>>" + counter)
-        //assert(counter == 3)
-      } finally {
-        if (pbfIS != null) pbfIS.close()
-        
-        if(outFile!=null) {
-          // outFile.write(1)
-          outFile.flush()
-          outFile.close()
-        }
-      }
-    }
-    */
-    
     
   }
 
