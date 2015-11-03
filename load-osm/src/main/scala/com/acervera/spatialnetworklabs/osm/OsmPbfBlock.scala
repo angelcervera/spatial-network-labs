@@ -1,9 +1,8 @@
 package com.acervera.spatialnetworklabs.osm
 
-import java.io.DataInput
+import java.io.{DataInputStream, ByteArrayInputStream, DataInput, DataOutput}
 import org.openstreetmap.osmosis.osmbinary.Fileformat
 import java.nio.ByteBuffer
-import java.io.DataOutput
 
 object OsmPbfBlock {
   
@@ -13,17 +12,22 @@ object OsmPbfBlock {
     pbfStream.readFully(blobHeader)
 
     // Reading message
-    val blob = new Array[Byte]( Fileformat.BlobHeader.parseFrom(blobHeader).getDatasize )
+    val headerParsed = Fileformat.BlobHeader.parseFrom(blobHeader);
+    val blob = new Array[Byte](headerParsed.getDatasize)
     pbfStream.readFully(blob)
 
     // Create the object
-    OsmPbfBlock(blobHeader, blob)
+    OsmPbfBlock(headerParsed.getType, blobHeader, blob)
+  }
+
+  def apply(rawBlock: Array[Byte]): OsmPbfBlock = {
+    apply(new DataInputStream(new ByteArrayInputStream(rawBlock)))
   }
   
 }
 
-case class OsmPbfBlock(header : Array[Byte], blob : Array[Byte]) {
-  
+case class OsmPbfBlock(blockType: String, header: Array[Byte], blob: Array[Byte]) {
+
   /**
    * Regenerate the original raw block.
    *

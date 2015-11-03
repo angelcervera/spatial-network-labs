@@ -13,6 +13,7 @@ object MainBuild extends Build {
   lazy val sparkVersion = "1.5.1"
   lazy val osmosisVersion = "0.44.1"
 
+
   lazy val commonSettings = Seq(
     organization := "com.acervera.labs.spatial",
     organizationHomepage := Some(url("http://www.acervera.com")),
@@ -23,6 +24,9 @@ object MainBuild extends Build {
       "org.scalatest" %% "scalatest" % "2.2.5" % "test",
       "org.scalacheck" %% "scalacheck" % "1.12.4" % "test"
     )
+    //    ,
+    //    scalacOptions += "-target:jvm-1.8",
+    //    javacOptions ++= Seq("-source", "1.8", "-target", "1.8")
   )
 
   lazy val algorithmsCommonSettings = commonSettings ++ Seq(
@@ -67,6 +71,7 @@ object MainBuild extends Build {
       libraryDependencies ++= List(
         // "org.apache.spark" %% "spark-core" % sparkVersion % "provided",
         "org.openstreetmap.osmosis" % "osmosis-osm-binary" % osmosisVersion,
+        "org.openstreetmap.osmosis" % "osmosis-core" % osmosisVersion,
         "org.clapper" %% "argot" % "1.0.3",
         "commons-codec" % "commons-codec" % "1.10" % "test"
       )
